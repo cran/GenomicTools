@@ -1,4 +1,4 @@
-3fd6569b60cda32e154b2124d1085cb4 *DESCRIPTION
+5fbb0c84147604825b48e2b55b74073e *DESCRIPTION
 2ab3b0bacdd724937de7a271462867bd *NAMESPACE
 50595d0aec93d54581a55d40fc1a63c5 *R/QTL.R
 f266dbfc03be84ebb62debf894baf9ff *R/aaa.R
@@ -30,7 +30,7 @@ cf139d73a324c8f4be0b807ee9c650e4 *R/plotGeneLocation.R
 b632af7e2a82e11472f33fa0e7c5f906 *R/print.PedMap.R
 6b669b6d64fac5cd5b8c71fc6c720775 *R/print.eqtl.R
 948b6ec81da15162f0b538ae524fcc5e *R/print.mdr.R
-b97c931ef51539d992e5aa27351ad834 *R/print.mdrEnsemble.R
+91ef0980e6032d3c348154098131722e *R/print.mdrEnsemble.R
 f4b050f686f3756a79791bddd4e4bbe4 *R/print.mdrPredict.R
 61699496bc1e0940a2e8687f704ef1a1 *R/print.qtlRes.R
 4dc33ff0e3782a9d77bb026d5ac98f6f *R/print.vcf.R
@@ -48,11 +48,11 @@ fe71e56b3cfd9475e6259873b707df83 *data/geneEXP.rda
 ee4365cfb69d9fc86e9f04158e0199b9 *data/genotData.rda
 882c97c2640ff7ed02034a5e643e5cae *data/mdrExample.rda
 4f0b67aea65d2686ec8ac79ad3b03c22 *data/phenoData.rda
-e6cf605f6b930fa421e292e255e3ff39 *inst/ChangeLog
+ab2c30414795e94ff1dc8310f02ca11c *inst/ChangeLog
 857995d124f654a1409d9353d8e6867d *inst/doc/GenomicTools-Vignette.R
 554009970ca65c5e3e65cb54073424c6 *inst/doc/GenomicTools-Vignette.Rmd
-af0fc2d45b217b7a7c3221d2ec0d2ad3 *inst/doc/GenomicTools-Vignette.pdf
-33f9a3345f356a4b9f7346f4c71ac60f *man/GenomicTools-package.Rd
+774668d5462f89fa16dc990997f91069 *inst/doc/GenomicTools-Vignette.pdf
+d4011e6a40ae0544a56059163d59d0b8 *man/GenomicTools-package.Rd
 247f132caf5d76df3b5e4f929a38cde8 *man/QTL.Rd
 780a84b46751d71399275686f23a6d90 *man/annotTrack.Rd
 2d77b75c424f7475e8fb9cb71b4a8a6d *man/eQTL.Rd
