@@ -10,6 +10,10 @@ knitr::opts_chunk$set(echo = TRUE,
 #  install.packages("GenomicTools")
 
 ## ----eval=FALSE----------------------------------------------------------
+#  source("https://bioconductor.org/biocLite.R")
+#  biocLite("snpStats")
+
+## ----eval=FALSE----------------------------------------------------------
 #  library("devtools")
 #  install_github("fischuu/GenomicTools")
 
