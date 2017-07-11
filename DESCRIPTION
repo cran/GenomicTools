@@ -1,8 +1,8 @@
 Package: GenomicTools
 Type: Package
 Title: Collection of Tools for Genomic Data Analysis
-Version: 0.2.4
-Date: 2017-03-30
+Version: 0.2.6
+Date: 2017-07-11
 Author: Daniel Fischer
 Maintainer: Daniel Fischer <daniel.fischer@luke.fi>
 Depends: R (>= 3.3), gMWT (>= 1.1), Rcpp (>= 0.9.13), data.table (>=
@@ -15,6 +15,6 @@ VignetteBuilder: knitr
 License: GPL (>= 2)
 LazyLoad: yes
 NeedsCompilation: yes
-Packaged: 2017-04-08 07:57:41 UTC; fischuu
+Packaged: 2017-07-11 11:16:01 UTC; ejo138
 Repository: CRAN
-Date/Publication: 2017-04-08 20:47:32 UTC
+Date/Publication: 2017-07-11 21:37:18 UTC

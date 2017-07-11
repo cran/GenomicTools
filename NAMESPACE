@@ -9,6 +9,7 @@ importFrom("stats", "density", "lm", "predict", "smooth.spline")
 importFrom("parallel", "mclapply")
 importFrom("stringr", "str_replace_all")
 importFrom("snpStats", "switch.alleles")
+importFrom("utils", "download.file")
 
 S3method(print,eqtl)
 S3method(plot,eqtl)
@@ -29,6 +30,7 @@ S3method(summary,qtlRes)
 
 S3method(print,vcf)
 
-export(eQTL, QTL, gtfToBed, mdr, mdrEnsemble, recodeData, importSTARLog, importPED, importGFF3, importGTF, importVCF)
+export(eQTL, QTL, gtfToBed, mdr, mdrEnsemble, recodeData, importSTARLog, importPED, importGFF3, importGTF, importVCF, 
+       getKEGGOrganisms, getKEGGPathwayOverview, getKEGGPathway, getKEGGPathwayImage, getRSLocation)
 
 useDynLib(GenomicTools, .registration = TRUE)
