@@ -1,6 +1,6 @@
 # This script performs a QTL study for QTL studies 
 
-QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="LM", mc=1, sig=NULL, testType="permutation", nper=2000, which=NULL, verbose=TRUE){
+QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="LM", mc=1, sig=NULL, testType="asymptotic", nper=2000, which=NULL, verbose=TRUE){
 
     # Initial values
       noNames <- FALSE
@@ -27,7 +27,7 @@ QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="L
       testType <- match.arg(testType,c("permutation","asymptotic"))
     
     # Read in the genotype data if name is given, otherwise assume already imported SNPS are given as input
-      if(is.character(geno)==TRUE)
+      if(is.character(geno)==TRUE && length(geno)==1)
       {
         # Check if there is a ped/map pair or vcf given as input
           fileEnding <- tolower(substr(geno, nchar(geno)-2,nchar(geno)))
@@ -60,8 +60,20 @@ QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="L
        } else {
           if(class(geno)=="PedMap"){
              genoData <- geno
-          } else if(class(geno)=="VCF"){
+          } else if(class(geno)=="vcf"){
             genoData <- geno
+            
+      # In the other possibility is that the genotypes are just given in a matrix or vector form:    
+          } else if(is.vector(geno)){
+            # Here is just one vector with genotype information given
+            if(length(geno)!=nrow(pheno)) stop("Amount of entered phenotypes and genotypes do not match!")
+            genoData <- vectorToGenomatrix(geno)
+      
+          } else if(is.matrix(geno)||is.data.frame(geno)){ 
+            # Here is a matrix with genotype information given
+            if(nrow(geno)!=nrow(pheno)) stop("Amount of entered phenotypes and genotypes do not match!")
+            genoData <- matrixToGenomatrix(geno)
+            
           } else {
              stop("Please provide either a PedMap (importPED) of a VCF (importVCF) object, or the corresponding file path to either file.")
           }
@@ -126,35 +138,61 @@ QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="L
       qtlTemp <- list()
       SNPloc <- getSNPlocations(genotInfo=genoData$map, th=NULL)
         
-      SNPmatrix <- as.matrix(genoData$genotypes[,SNPloc$SNPloc$snp.names, with=FALSE])
-      genoGroups <- matrix(as.numeric(SNPmatrix),nrow=nrow(SNPmatrix))
-      colnames(genoGroups) <- colnames(SNPmatrix)
-      rownames(genoGroups) <- rownames(genoData)
-      genoGroups <- rearrange(genoGroups,rownames(pheno),genoSamples)
+      if(dim(SNPloc$SNPloc)[1]>0){
+        SNPmatrix <- as.matrix(genoData$genotypes[,SNPloc$SNPloc$snp.names, with=FALSE])
+        genoGroups <- matrix(as.numeric(SNPmatrix),nrow=nrow(SNPmatrix))
+        colnames(genoGroups) <- colnames(SNPmatrix)
+        rownames(genoGroups) <- rownames(genoData)
+        genoGroups <- rearrange(genoGroups,rownames(pheno),genoSamples)
+      
+      #if(length(SNPloc$SNPloc$snp.names)>1){
+      #  SNPmatrix <- as.matrix(genoData$genotypes[,SNPloc$SNPloc$snp.names])        
+      #} else {
+      #  SNPmatrix <- as.matrix(genoData$genotypes)
+      #}
+
+      #genoGroups <- matrix(as.numeric(SNPmatrix)-1,nrow=nrow(SNPmatrix))
+      #colnames(genoGroups) <- colnames(SNPmatrix)
+      #rownames(genoGroups) <- rownames(genoData)
+      #genoGroups <- rearrange(genoGroups,rownames(pheno),genoSamples)
           
     # QTL case : LM
       if(method=="LM"){
         # if sig is set to Null all results will be reported - This might be very memory consuming!!!
           if(is.null(sig)){
-              qtlTemp[[phenoRun]] <- list(GeneLoc=rep(phenoRun,ncol(genoGroups)),TestedSNP=SNPloc[[1]],p.values=eqtlLM(genoGroups,pheno[,phenoRun], mc=mc))
+              if(is.matrix(genoGroups)){
+                qtlTemp[[phenoRun]] <- list(GeneLoc=rep(phenoRun,ncol(genoGroups)),TestedSNP=SNPloc[[1]],p.values=eqtlLM(genoGroups,pheno[,phenoRun], mc=mc))                
+              } else {
+                qtlTemp[[phenoRun]] <- list(GeneLoc=rep(phenoRun,1),TestedSNP=SNPloc[[1]],p.values=eqtlLM(genoGroups,pheno[,phenoRun], mc=mc))
+              }
+
           } else {
               p.values <- eqtlLM(genoGroups,pheno[,phenoRun], mc=mc)
               pPos <- p.values<=sig
               qtlTemp[[phenoRun]] <- cbind(SNPloc[[1]][pPos,c(1,2,4)],p.values[pPos])
           }
-        # eQTL case: directional
+        # QTL case: directional
         } else if(method=="directional"){
           # if sig is set to Null all results will be reported - This might be very memory consuming!!!
             if(is.null(sig)){ 
+              if(is.matrix(genoGroups)){
               qtlTemp[[phenoRun]] <- list(GeneLoc=rep(phenoRun, ncol(genoGroups)),
                                           TestedSNP=SNPloc[[1]],
                                           p.values=eqtlDir(genoGroups,pheno[,phenoRun], mc=mc,nper=nper, testType=testType))
+              } else {
+                qtlTemp[[phenoRun]] <- list(GeneLoc=rep(phenoRun, 1),
+                                            TestedSNP=SNPloc[[1]],
+                                            p.values=eqtlDir(genoGroups,pheno[,phenoRun], mc=mc,nper=nper, testType=testType))
+              }
             } else {
               p.values <- eqtlDir(genoGroups,pheno[,phenoRun],mc=mc,nper=nper, testType=testType)
               pPos <- p.values<=sig
               qtlTemp[[phenoRun]] <- cbind(SNPloc[[1]][pPos,c(1,2,4)],p.values[pPos])
             }
-        } 
+        }
+      } else {
+        warning("There were no variants within the window of gene ", matchingPheno[phenoRun])
+      }
   
       
     # Join the output

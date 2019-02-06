@@ -1,15 +1,15 @@
-import(gMWT, Rcpp, data.table)
+import(gMWT, Rcpp, data.table, GenomicTools.fileHandler)
 
 importFrom("graphics", "abline", "plot")
 importFrom("utils", "read.csv", "read.table", "sessionInfo")
 importFrom("grDevices", "dev.off", "pdf", "rainbow")
 importFrom("circlize", "circos.clear", "circos.par", "circos.initialize", "circos.trackPlotRegion", "circos.text", "circos.rect", "circos.link","get.cell.meta.data")
 importFrom("graphics", "axis", "boxplot", "layout", "lines", "par", "points", "rect", "text")
-importFrom("stats", "density", "lm", "predict", "smooth.spline")
+importFrom("stats", "density", "lm", "predict", "smooth.spline", "median", "setNames")
 importFrom("parallel", "mclapply")
 importFrom("stringr", "str_replace_all")
 importFrom("snpStats", "switch.alleles")
-importFrom("utils", "download.file")
+importFrom("utils", "download.file", "head")
 
 S3method(print,eqtl)
 S3method(plot,eqtl)
@@ -30,7 +30,7 @@ S3method(summary,qtlRes)
 
 S3method(print,vcf)
 
-export(eQTL, QTL, gtfToBed, mdr, mdrEnsemble, recodeData, importSTARLog, importPED, importGFF3, importGTF, importVCF, 
+export(eQTL, QTL, gtfToBed, mdr, mdrEnsemble, recodeData,
        getKEGGOrganisms, getKEGGPathwayOverview, getKEGGPathway, getKEGGPathwayImage, getRSLocation)
 
 useDynLib(GenomicTools, .registration = TRUE)

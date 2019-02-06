@@ -39,6 +39,7 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
       rownames(gex) <- tmp
     } else {
       if(is.null(rownames(gex))) noNames <- TRUE
+      oldNames <- rownames(gex)
     }
 
   # Input checks
@@ -90,6 +91,18 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
           genoData <- geno
         } else if(class(geno)=="vcf"){
           genoData <- geno
+          
+          # In the other possibility is that the genotypes are just given in a matrix or vector form:    
+        } else if(is.vector(geno)){
+          # Here is just one vector with genotype information given
+       #   if(length(geno)!=nrow(pheno)) stop("Amount of entered phenotypes and genotypes do not match!")
+          genoData <- vectorToGenomatrix(geno)
+          
+        } else if(is.matrix(geno)||is.data.frame(geno)){ 
+          # Here is a matrix with genotype information given
+      #    if(nrow(geno)!=nrow(pheno)) stop("Amount of entered phenotypes and genotypes do not match!")
+          genoData <- matrixToGenomatrix(geno)
+          
         } else {
           stop("Please provide either a PedMap (importPED) of a VCF (importVCF) object, or the corresponding file path to either file.")
         }
@@ -189,25 +202,38 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
             rownames(genoGroups) <- rownames(genoData)
             genoGroups <- rearrange(genoGroups,rownames(gex),genoSamples)
 
-        # eQTL case : LM
-          if(method=="LM"){
-          # if sig is set to Null all results will be reported - This might be very memory consuming!!!
-  	        if(is.null(sig)){
-  	            eqtlTemp[[tempRun]] <- list(GeneLoc=rep(tempRun,ncol(genoGroups)),
-  	                                        TestedSNP=SNPloc[[1]],
-  	                                        p.values=eqtlLM(genoGroups,gex[,geneRun], mc=mc))
-  	        } else {
-  	            p.values <- eqtlLM(genoGroups,gex[,geneRun], mc=mc)
-            	  pPos <- p.values<=sig
-  	            eqtlTemp[[tempRun]] <- cbind(SNPloc[[1]][pPos,c(1,2,4)],p.values[pPos])
-  	        }
-        # eQTL case: directional
-          } else if(method=="directional"){
-          # if sig is set to Null all results will be reported - This might be very memory consuming!!!
-            if(is.null(sig)){ 
-  	           eqtlTemp[[tempRun]] <- list(GeneLoc=rep(tempRun, ncol(genoGroups)),
-  	                                       TestedSNP=SNPloc[[1]],
-  	                                       p.values=eqtlDir(genoGroups,gex[,geneRun], mc=mc, nper=nper, testType=testType))
+          # eQTL case : LM
+            if(method=="LM"){
+            # if sig is set to Null all results will be reported - This might be very memory consuming!!!
+    	        if(is.null(sig)){
+    	            if(is.matrix(genoGroups)){
+    	               eqtlTemp[[tempRun]] <- list(GeneLoc=rep(tempRun,ncol(genoGroups)),
+    	                                           TestedSNP=SNPloc[[1]],
+    	                                           p.values=eqtlLM(genoGroups,gex[,geneRun], mc=mc))
+    	            } else {
+    	              eqtlTemp[[tempRun]] <- list(GeneLoc=rep(tempRun,1),
+    	                                          TestedSNP=SNPloc[[1]],
+    	                                          p.values=eqtlLM(genoGroups,gex[,geneRun], mc=mc))
+    	            }
+    	        } else {
+    	            p.values <- eqtlLM(genoGroups,gex[,geneRun], mc=mc)
+              	  pPos <- p.values<=sig
+    	            eqtlTemp[[tempRun]] <- cbind(SNPloc[[1]][pPos,c(1,2,4)],p.values[pPos])
+    	        }
+          # eQTL case: directional
+            } else if(method=="directional"){
+            # if sig is set to Null all results will be reported - This might be very memory consuming!!!
+              if(is.null(sig)){ 
+                 if(is.matrix(genoGroups)){
+                   eqtlTemp[[tempRun]] <- list(GeneLoc=rep(tempRun, ncol(genoGroups)),
+                                               TestedSNP=SNPloc[[1]],
+                                               p.values=eqtlDir(genoGroups,gex[,geneRun], mc=mc, nper=nper, testType=testType))
+                 } else {
+                   eqtlTemp[[tempRun]] <- list(GeneLoc=rep(tempRun, 1),
+                                               TestedSNP=SNPloc[[1]],
+                                               p.values=eqtlDir(genoGroups,gex[,geneRun], mc=mc, nper=nper, testType=testType))
+                   
+                 }
   	        } else {
   	           p.values <- eqtlDir(genoGroups,gex[,geneRun],mc=mc,nper=nper, testType=testType)
   	           pPos <- p.values<=sig
