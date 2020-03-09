@@ -1,4 +1,4 @@
-8f5a62d1c6be5090c3c169da83b3bdd2 *DESCRIPTION
+633441fdec40d8e6f0b86d661e16edb8 *DESCRIPTION
 4f13998bbb62bbf68f25f646845570db *NAMESPACE
 e060b55a99190a28e17a7e428d857aa7 *R/KEGGfunctions.R
 a4a8be6889e20e099ffd626201a63c7f *R/QTL.R
@@ -14,8 +14,8 @@ e18f19b4746cdb1f70ded19585ef10b2 *R/eqtl.R
 166a7830d7650b36299ab2d173ec7a73 *R/getRSLocation.R
 6cff11747fcc502e77cb5c558f2724fe *R/getRegionsOI.R
 b7721cdb291117682bc10e2fabc74500 *R/getSNPlocations.R
-382740f5a3bd574ab664ee72a03d2d7e *R/gtfToBed.R
-ae0f9f2cb9f1aee4793b02d1c054f908 *R/joinEQTL.R
+3fc07a14612428b5030df992219b7280 *R/gtfToBed.R
+1552fd4550137fbc06f60663403600f4 *R/joinEQTL.R
 86980ab926c8e35e5e7cbbcc4aebc2c9 *R/joinEQTLsig.R
 ffdbb6cf43b168cc29d0d3b3b0a18b6b *R/makeannotList.R
 c9f58db3bb53b6d1a9d29b51af846ee1 *R/mdr.R
@@ -47,11 +47,11 @@ ae31c85721018c748bd2d076576bd2d6 *data/annotTrack.rda
 5270b157ad130fb5d792ebe6825bd594 *data/genotData.rda
 2006497e628f8d062c2086dda601adc3 *data/mdrExample.rda
 6d50023a2d9cd4a70ff7f07365d2da7d *data/phenoData.rda
-b6cd290086ca30f2fb41eb6059196706 *inst/ChangeLog
+812343f096b87bf1ecdfac7b2048891c *inst/ChangeLog
 83d9fc4e38d848fb5bd7e51b647d10cf *inst/doc/GenomicTools-Vignette.R
 8e064be21104700b4b049edb05d8297b *inst/doc/GenomicTools-Vignette.Rmd
-816cba586c19bd9fc9500ca9f7c75425 *inst/doc/GenomicTools-Vignette.pdf
-bb0226d6c9b08c34a8356448e5faf1bb *man/GenomicTools-package.Rd
+1a5019e8e9e3f28203f2c9fb9bb20573 *inst/doc/GenomicTools-Vignette.pdf
+beda39225ec456ac47da23321983c60b *man/GenomicTools-package.Rd
 7d4a9dbcd8a62da35a0a06d0f4c5106e *man/QTL.Rd
 780a84b46751d71399275686f23a6d90 *man/annotTrack.Rd
 89b048159a2e5fe71ea1b66ec1295904 *man/eQTL.Rd
@@ -62,7 +62,7 @@ e4081ccf916fa21072ffe330a1d15d6b *man/getKEGGOrganisms.Rd
 a29ca55582d6bcfc656f318ca79085d0 *man/getKEGGPathwayImage.Rd
 33fdce9344d840adce489bebb943938b *man/getKEGGPathwayOverview.Rd
 0306cd9a6463cfb233d296849fbea344 *man/getRSLocation.Rd
-e8e2bc9333ccb4340c7ac21c8232dfb2 *man/gtfToBed.Rd
+4bdad842ea046400affe852bf7f79ac7 *man/gtfToBed.Rd
 3a1eb690bc20d6d1824ff9ec3bc8ce31 *man/mdr.Rd
 07ed3294b79d637c4bbfa18ddd547804 *man/mdrEnsemble.Rd
 0e54d07c8cbd5916b5a8d89501c41830 *man/mdrExample.Rd
